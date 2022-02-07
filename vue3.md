@@ -602,4 +602,127 @@ export default {
 + isProxy: 检查一个对象是否是由 reactive 或者 readonly 方法创建的代理
 
 
+#### Teleport(瞬移)
+Teleport 提供了一种干净的方法, 让组件的html在父组件界面外的特定标签(很可能是body)下插入显示
+
+```html
+
+<template>
+  <button @click="modalOpen = true">
+      Open full screen modal! (With teleport!)
+  </button>
+
+  <teleport to="body">
+    <div v-if="modalOpen" class="modal">
+      <div>
+        I'm a teleported modal! 
+        (My parent is "body")
+        <button @click="modalOpen = false">
+          Close
+        </button>
+      </div>
+    </div>
+  </teleport>
+</template>
+
+<script>
+import { ref } from 'vue'
+export default {
+  name: 'modal-button',
+  setup () {
+    const modalOpen = ref(false)
+    return {
+      modalOpen
+    }
+  }
+}
+</script>
+```
+
+
+##### Suspense
+
+> 它们允许我们的应用程序在等待异步组件时渲染一些后备内容，可以让我们创建一个平滑的用户体验
+
+父组件
+```html
+<template>
+  <Suspense>
+    <template v-slot:default>
+      <AsyncComp/>
+      <!-- <AsyncAddress/> -->
+    </template>
+
+    <template v-slot:fallback>
+      <h1>LOADING...</h1>
+    </template>
+  </Suspense>
+</template>
+
+<script lang="ts">
+/* 
+异步组件 + Suspense组件
+*/
+// import AsyncComp from './AsyncComp.vue'
+import AsyncAddress from './AsyncAddress.vue'
+import { defineAsyncComponent } from 'vue'
+// vue3中的异步组件导入方式
+const AsyncComp = defineAsyncComponent(() => import('./AsyncComp.vue'))
+export default {
+  setup() {
+    return {
+     
+    }
+  },
+
+  components: {
+    AsyncComp,
+    AsyncAddress
+  }
+}
+</script>
+
+```
+
+子组件
+```html
+<template>
+  <h2>AsyncComp22</h2>
+  <p>{{msg}}</p>
+</template>
+
+<script lang="ts">
+import axios from 'axios'
+
+export default {
+  name: 'AsyncComp',
+  setup () {
+    // return new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     resolve({
+    //       msg: 'abc'
+    //     })
+    //   }, 2000)
+    // })
+
+    // 也可以这么写
+    // return axios.get('/url').then((res) => {
+    //   return {
+    //     data: res.data
+    //   }
+    // })
+    // 也可以这么写
+    // const res = await axios.get('url')
+    // return {
+    //   data: res.data
+    // }
+    
+    return {
+      msg: 'abc'
+    }
+  }
+}
+</script>
+
+```
 

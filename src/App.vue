@@ -32,7 +32,7 @@
   <hr>
   <!-- <Younger-Brother /> -->
   <hr>
-  <Brother />
+  <Brother :obj="{ name: '123' }" />
 </template>
 
 <script lang="ts">

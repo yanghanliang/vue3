@@ -8,19 +8,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import YoungerBrother from './youngerBrother.vue'
-
+import { Hname } from '../typs/props'
 
 export default defineComponent({
   name: "App",
   components: {
     YoungerBrother
   },
-  // setup() {
-    
-
-  //   return {
-  //     color
-  //   }
-  // }
+  props: {
+    obj: {
+      type: Object as () => Hname,
+    }
+  },
 });
 </script>
